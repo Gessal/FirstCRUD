@@ -1,5 +1,6 @@
-package dao;
+package dao.JdbcDao;
 
+import dao.interfaceDao.UserDAO;
 import model.User;
 import util.DBUtil;
 
@@ -7,17 +8,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersDAO implements CrudDAO<User> {
+public class UserJdbcDAO implements UserDAO {
     private Connection connection;
-    private static UsersDAO instance;
+    private static UserJdbcDAO instance;
 
-    private UsersDAO() {
+    private UserJdbcDAO() {
         connection = DBUtil.getConnection();
     }
 
-    public static UsersDAO getInstance() {
+    public static UserJdbcDAO getInstance() {
         if (instance == null) {
-            instance = new UsersDAO();
+            instance = new UserJdbcDAO();
         }
         return instance;
     }
@@ -78,6 +79,52 @@ public class UsersDAO implements CrudDAO<User> {
             }
         } catch (SQLException e) {
             return null;
+        }
+    }
+
+    @Override
+    public List<User> findByName(String name) {
+        try (PreparedStatement st = connection.prepareStatement("SELECT * FROM user WHERE name = ?")) {
+            return getUsers(name, st);
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<User> findBySurname(String surname) {
+        try (PreparedStatement st = connection.prepareStatement("SELECT * FROM user WHERE surname = ?")) {
+            return getUsers(surname, st);
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<User> findAgeBetwen(byte startAge, byte endAge) {
+        try (PreparedStatement st = connection.prepareStatement("SELECT * FROM user WHERE age > ? AND age < ?")) {
+            st.setByte(1, startAge);
+            st.setByte(2, endAge);
+            try (ResultSet rs = st.executeQuery()) {
+                List<User> result = new ArrayList<>();
+                while (rs.next()) {
+                    result.add(new User(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getByte(4)));
+                }
+                return result;
+            }
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    private List<User> getUsers(String param, PreparedStatement st) throws SQLException {
+        st.setString(1, param);
+        List<User> result = new ArrayList<>();
+        try (ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                result.add(new User(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getByte(4)));
+            }
+            return result;
         }
     }
 }

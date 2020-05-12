@@ -1,6 +1,6 @@
 package service;
 
-import dao.UsersDAO;
+import dao.JdbcDao.UserJdbcDAO;
 import model.User;
 
 import java.util.List;
@@ -18,18 +18,18 @@ public class UsersService {
     }
 
     public List<User> findAllUsers() {
-        return UsersDAO.getInstance().findAll();
+        return UserJdbcDAO.getInstance().findAll();
     }
 
     public void addUser(User user) {
-        UsersDAO.getInstance().save(user);
+        UserJdbcDAO.getInstance().save(user);
     }
 
     public void deleteUser(Long id) {
-        UsersDAO.getInstance().delete(id);
+        UserJdbcDAO.getInstance().delete(id);
     }
 
     public void updateUser(User user) {
-        UsersDAO.getInstance().update(user);
+        UserJdbcDAO.getInstance().update(user);
     }
 }
