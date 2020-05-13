@@ -1,6 +1,5 @@
-package dao.interfaceDao;
+package dao;
 
-import dao.interfaceDao.CrudDAO;
 import model.User;
 
 import java.util.List;

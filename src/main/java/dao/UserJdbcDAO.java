@@ -1,6 +1,5 @@
-package dao.JdbcDao;
+package dao;
 
-import dao.interfaceDao.UserDAO;
 import model.User;
 import util.DBUtil;
 
@@ -33,7 +32,7 @@ public class UserJdbcDAO implements UserDAO {
             } else {
                 return null;
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -45,7 +44,7 @@ public class UserJdbcDAO implements UserDAO {
             st.setString(2, user.getSurname());
             st.setByte(3, user.getAge());
             st.executeUpdate();
-        } catch (SQLException ignored) { }
+        } catch (Exception ignored) { }
     }
 
     @Override
@@ -56,7 +55,7 @@ public class UserJdbcDAO implements UserDAO {
             st.setByte(3, user.getAge());
             st.setLong(4, user.getId());
             st.executeUpdate();
-        } catch (SQLException ignored) { }
+        } catch (Exception ignored) { }
     }
 
     @Override
@@ -64,7 +63,7 @@ public class UserJdbcDAO implements UserDAO {
         try (PreparedStatement st = connection.prepareStatement("DELETE FROM user WHERE id = ?")) {
             st.setLong(1, id);
             st.executeUpdate();
-        } catch (SQLException ignored) { }
+        } catch (Exception ignored) { }
     }
 
     @Override
@@ -77,7 +76,7 @@ public class UserJdbcDAO implements UserDAO {
                 }
                 return result;
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -86,7 +85,7 @@ public class UserJdbcDAO implements UserDAO {
     public List<User> findByName(String name) {
         try (PreparedStatement st = connection.prepareStatement("SELECT * FROM user WHERE name = ?")) {
             return getUsers(name, st);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -95,7 +94,7 @@ public class UserJdbcDAO implements UserDAO {
     public List<User> findBySurname(String surname) {
         try (PreparedStatement st = connection.prepareStatement("SELECT * FROM user WHERE surname = ?")) {
             return getUsers(surname, st);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -112,7 +111,7 @@ public class UserJdbcDAO implements UserDAO {
                 }
                 return result;
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             return null;
         }
     }

@@ -1,6 +1,6 @@
 package service;
 
-import dao.HibernateDAO.UserHibernateDAO;
+import dao.UserHibernateDAO;
 import model.User;
 import org.hibernate.SessionFactory;
 import util.DBHelper;
