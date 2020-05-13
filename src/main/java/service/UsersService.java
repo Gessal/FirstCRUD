@@ -41,6 +41,10 @@ public class UsersService {
         daoSession().update(user);
     }
 
+    public User findUserById (Long id) {
+        return daoSession().getInstance().find(id);
+    }
+
     private UserHibernateDAO daoSession() {
         return dao.setSession(sessionFactory.openSession());
     }
