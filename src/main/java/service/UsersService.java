@@ -42,7 +42,7 @@ public class UsersService {
     }
 
     public User findUserById (Long id) {
-        return daoSession().getInstance().find(id);
+        return daoSession().find(id);
     }
 
     private UserHibernateDAO daoSession() {
