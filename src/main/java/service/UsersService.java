@@ -32,4 +32,8 @@ public class UsersService {
     public void updateUser(User user) {
         UsersDAO.getInstance().update(user);
     }
+
+    public User findUserById (Long id) {
+        return UsersDAO.getInstance().find(id);
+    }
 }
