@@ -1,35 +1,47 @@
 package service;
 
-import dao.JdbcDao.UserJdbcDAO;
+import dao.HibernateDAO.UserHibernateDAO;
 import model.User;
+import org.hibernate.SessionFactory;
+import util.DBHelper;
 
 import java.util.List;
 
 public class UsersService {
     private static UsersService instance;
 
-    private UsersService() { }
+    private SessionFactory sessionFactory;
+    private UserHibernateDAO dao;
+
+    private UsersService(SessionFactory sessionFactory) {
+        this.dao = UserHibernateDAO.getInstance();
+        this.sessionFactory = sessionFactory;
+    }
 
     public static UsersService getInstance() {
         if (instance == null) {
-            instance = new UsersService();
+            instance = new UsersService(DBHelper.getSessionFactory());
         }
         return instance;
     }
 
     public List<User> findAllUsers() {
-        return UserJdbcDAO.getInstance().findAll();
+        return daoSession().findAll();
     }
 
     public void addUser(User user) {
-        UserJdbcDAO.getInstance().save(user);
+        daoSession().save(user);
     }
 
     public void deleteUser(Long id) {
-        UserJdbcDAO.getInstance().delete(id);
+        daoSession().delete(id);
     }
 
     public void updateUser(User user) {
-        UserJdbcDAO.getInstance().update(user);
+        daoSession().update(user);
+    }
+
+    private UserHibernateDAO daoSession() {
+        return dao.setSession(sessionFactory.openSession());
     }
 }
