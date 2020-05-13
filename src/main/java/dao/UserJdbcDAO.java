@@ -1,7 +1,7 @@
 package dao;
 
 import model.User;
-import util.DBUtil;
+import util.DBHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class UserJdbcDAO implements UserDAO {
     private static UserJdbcDAO instance;
 
     private UserJdbcDAO() {
-        connection = DBUtil.getConnection();
+        connection = DBHelper.getInstance().getConnection();
     }
 
     public static UserJdbcDAO getInstance() {

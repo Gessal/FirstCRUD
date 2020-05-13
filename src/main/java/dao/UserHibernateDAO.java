@@ -3,16 +3,28 @@ package dao;
 import model.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import util.DBHelper;
 
 import java.util.List;
 
 public class UserHibernateDAO implements UserDAO {
     private static UserHibernateDAO instance;
 
+    private SessionFactory sessionFactory;
     private Session session;
 
-    private UserHibernateDAO() { }
+    private UserHibernateDAO() {
+        Configuration configuration = DBHelper.getInstance().getConfiguration();
+        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
+        builder.applySettings(configuration.getProperties());
+        ServiceRegistry serviceRegistry = builder.build();
+        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+    }
 
     public static UserHibernateDAO getInstance() {
         if (instance == null) {
@@ -24,6 +36,7 @@ public class UserHibernateDAO implements UserDAO {
     @Override
     public List<User> findByName(String name) {
         try {
+            openSession();
             Query query = session.createQuery("FROM User WHERE name = :name");
             query.setParameter("name", name);
             return (List<User>) query.list();
@@ -37,6 +50,7 @@ public class UserHibernateDAO implements UserDAO {
     @Override
     public List<User> findBySurname(String surname) {
         try {
+            openSession();
             Query query = session.createQuery("FROM User WHERE surname = :surname");
             query.setParameter("surname", surname);
             return (List<User>) query.list();
@@ -50,6 +64,7 @@ public class UserHibernateDAO implements UserDAO {
     @Override
     public List<User> findAgeBetwen(byte startAge, byte endAge) {
         try {
+            openSession();
             Query query = session.createQuery("FROM User WHERE age > :startAge AND age < endAge");
             query.setParameter("startAge", startAge);
             query.setParameter("endAge", endAge);
@@ -64,6 +79,7 @@ public class UserHibernateDAO implements UserDAO {
     @Override
     public User find(Long id) {
         try {
+            openSession();
             Query query = session.createQuery("FROM User WHERE id = :id");
             query.setParameter("id", id);
             return (User) query.uniqueResult();
@@ -77,6 +93,7 @@ public class UserHibernateDAO implements UserDAO {
     @Override
     public void save(User user) {
         try {
+            openSession();
             session.save(user);
         } catch (Exception ignored) { }
         finally {
@@ -87,6 +104,7 @@ public class UserHibernateDAO implements UserDAO {
     @Override
     public void update(User user) {
         try {
+            openSession();
             Transaction transaction = session.beginTransaction();
             User u = (User) session.get(User.class, user.getId());
             u.setName(user.getName());
@@ -103,6 +121,7 @@ public class UserHibernateDAO implements UserDAO {
     @Override
     public void delete(Long id) {
         try {
+            openSession();
             Query query = session.createQuery("DELETE User WHERE id = :id");
             query.setParameter("id", id);
             query.executeUpdate();
@@ -115,6 +134,7 @@ public class UserHibernateDAO implements UserDAO {
     @Override
     public List<User> findAll() {
         try {
+            openSession();
             return (List<User>) session.createQuery("FROM User").list();
         } catch (Exception e) {
             return null;
@@ -123,8 +143,7 @@ public class UserHibernateDAO implements UserDAO {
         }
     }
 
-    public UserHibernateDAO setSession(Session session) {
-        this.session = session;
-        return this;
+    private void openSession() {
+        this.session = sessionFactory.openSession();
     }
 }

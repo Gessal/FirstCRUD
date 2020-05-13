@@ -1,7 +1,7 @@
 package servlet;
 
 import model.User;
-import service.UsersService;
+import service.Service;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +15,7 @@ public class ChangeUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            User user = UsersService.getInstance().findUserById(Long.parseLong(req.getParameter("id")));
+            User user = Service.getInstance().findUserById(Long.parseLong(req.getParameter("id")));
             req.setAttribute("user", user);
             req.getRequestDispatcher("/change_page.jsp").forward(req, resp);
         } catch (Exception e) {
@@ -29,7 +29,7 @@ public class ChangeUserServlet extends HttpServlet {
         try {
             String idString = req.getParameter("id");
             if (idString != null) {
-                UsersService.getInstance().updateUser(new User(Long.parseLong(idString),
+                Service.getInstance().updateUser(new User(Long.parseLong(idString),
                         req.getParameter("name"),
                         req.getParameter("surname"),
                         Byte.parseByte(req.getParameter("age"))));
