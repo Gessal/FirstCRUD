@@ -3,30 +3,26 @@ package service;
 import dao.UserDAO;
 import factory.UserDaoFactory;
 import model.User;
+import util.PropertyReader;
 
-import java.io.InputStream;
 import java.util.List;
-import java.util.Properties;
 
-public class Service {
-    private static Service instance;
+public class UserService {
+    private static UserService instance;
 
     private UserDAO dao;
 
-    private Service() {
+    private UserService() {
         try {
-            Properties properties = new Properties();
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(".properties");
-            properties.load(inputStream);
-            this.dao = UserDaoFactory.getDAO(properties);
+            this.dao = UserDaoFactory.getDAO(PropertyReader.getProperties(".properties"));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static Service getInstance() {
+    public static UserService getInstance() {
         if (instance == null) {
-            instance = new Service();
+            instance = new UserService();
         }
         return instance;
     }

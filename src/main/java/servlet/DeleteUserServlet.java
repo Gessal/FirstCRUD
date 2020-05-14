@@ -1,6 +1,6 @@
 package servlet;
 
-import service.Service;
+import service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +16,7 @@ public class DeleteUserServlet extends HttpServlet {
         try {
             String idString = req.getParameter("id");
             if (idString != null) {
-                Service.getInstance().deleteUser(Long.parseLong(idString));
+                UserService.getInstance().deleteUser(Long.parseLong(idString));
             }
             resp.setStatus(200);
         } catch (Exception e) {

@@ -1,7 +1,7 @@
 package servlet;
 
 import model.User;
-import service.Service;
+import service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +23,7 @@ public class AddUserServlet extends HttpServlet {
             User user = new User(req.getParameter("name"),
                     req.getParameter("surname"),
                     Byte.parseByte(req.getParameter("age")));
-            Service.getInstance().addUser(user);
+            UserService.getInstance().addUser(user);
             resp.setStatus(200);
         } catch (Exception e) {
             resp.setStatus(418);
