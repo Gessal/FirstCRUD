@@ -46,4 +46,8 @@ public class UserService {
     public User findUserById (Long id) {
         return dao.find(id);
     }
+
+    public User login(String name, String password) {
+        return dao.login(name, password);
+    }
 }

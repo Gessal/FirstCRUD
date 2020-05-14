@@ -1,7 +1,6 @@
 package servlet;
 
 import model.User;
-import service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,14 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet(value = "/admin")
-public class UsersServlet extends HttpServlet {
+@WebServlet(value = "/user")
+public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<User> users = UserService.getInstance().findAllUsers();
-        req.setAttribute("users", users);
-        req.getRequestDispatcher("/admin_page.jsp").forward(req, resp);
+        User user = (User) req.getSession(false).getAttribute("user");
+        req.setAttribute("user", user);
+        req.getRequestDispatcher("/user_page.jsp").forward(req, resp);
     }
 }

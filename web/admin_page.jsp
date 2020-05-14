@@ -1,5 +1,3 @@
-<%@ page import="model.User" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
@@ -19,13 +17,13 @@
             <td>${user.getAge()}</td>
             <form>
                 <input type="hidden" name="id" value="${user.getId()}">
-                <td><div align="center"><input type="submit" value="Изменить" formaction="/crud/change" formmethod="get"></div></td>
-                <td><div align="center"><input type="submit" value="Удалить" formaction="/crud/delete" formmethod="post"></div></td>
+                <td><div align="center"><input type="submit" value="Изменить" formaction="/admin/change" formmethod="get"></div></td>
+                <td><div align="center"><input type="submit" value="Удалить" formaction="/admin/delete" formmethod="post"></div></td>
             </form>
         </tr>
     </c:forEach>
 </table>
-<div align="center"><form action="/crud/add" method="get">
+<div align="center"><form action="/admin/add" method="get">
     <input type="submit" value="Добавить">
 </form></div>
 </body>

@@ -77,6 +77,21 @@ public class UserHibernateDAO implements UserDAO {
     }
 
     @Override
+    public User login(String name, String password) {
+        try {
+            openSession();
+            Query query = session.createQuery("FROM User WHERE name = :name AND password = :password");
+            query.setParameter("name", name);
+            query.setParameter("password", password);
+            return (User) query.uniqueResult();
+        } catch (Exception e) {
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
     public User find(Long id) {
         try {
             openSession();

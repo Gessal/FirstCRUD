@@ -19,6 +19,9 @@ public class User {
     @Column(name = "age")
     private byte age;
 
+    @Column(name="role")
+    private String role;
+
     public User() { }
 
     public User (String name, String surname, byte age) {
@@ -62,5 +65,13 @@ public class User {
 
     public void setAge(byte age) {
         this.age = age;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

@@ -3,6 +3,7 @@
 <head>
     <title>Add user</title>
 </head>
+<body>
 <div align="center"><form method="post">
     <table>
         <tr> <td>Имя:</td> <td><input type="text" name="name" size="25"> </td></tr>
@@ -11,7 +12,5 @@
     </table>
     <input type="submit" value="Добавить">
 </form></div>
-<body>
-
 </body>
 </html>

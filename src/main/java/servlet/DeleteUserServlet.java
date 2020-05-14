@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/crud/delete")
+@WebServlet(value = "/admin/delete")
 public class DeleteUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -22,7 +22,7 @@ public class DeleteUserServlet extends HttpServlet {
         } catch (Exception e) {
             resp.setStatus(418);
         } finally {
-            resp.sendRedirect("/crud");
+            resp.sendRedirect("/admin");
         }
     }
 }
