@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter("/auth")
-public class AuthFilter implements Filter {
+@WebFilter("/user")
+public class UserFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
@@ -23,10 +23,8 @@ public class AuthFilter implements Filter {
 
         if (session == null || session.getAttribute("user") == null) {
             resp.sendRedirect("/login");
-        } else if (((User) session.getAttribute("user")).getRole().equals("admin")){
-            resp.sendRedirect("/admin");
-        } else if (((User) session.getAttribute("user")).getRole().equals("user")){
-            resp.sendRedirect("/user");
+        } else if ((((User) session.getAttribute("user")).getRole().equals("admin") || ((User) session.getAttribute("user")).getRole().equals("user"))){
+            filterChain.doFilter(servletRequest, servletResponse);
         }
     }
 
